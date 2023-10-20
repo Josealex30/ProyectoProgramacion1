@@ -41,7 +41,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
         txtTitulo = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        txtNota = new javax.swing.JTextArea();
+        txtDescripcion = new javax.swing.JTextArea();
         btnGuardar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -72,9 +72,9 @@ public class FrmCrearNota extends javax.swing.JFrame {
         jLabel3.setText("Nota:");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
 
-        txtNota.setColumns(20);
-        txtNota.setRows(5);
-        jScrollPane1.setViewportView(txtNota);
+        txtDescripcion.setColumns(20);
+        txtDescripcion.setRows(5);
+        jScrollPane1.setViewportView(txtDescripcion);
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 500, 90));
 
@@ -119,13 +119,16 @@ public class FrmCrearNota extends javax.swing.JFrame {
         //VALIDACIONES HACEN FALTA
         ClsNotas notas = new ClsNotas();
         notas.titulo = this.txtTitulo.getText();
-        notas.descripcion = this.txtTitulo.getText();
+        notas.descripcion = this.txtDescripcion.getText();
         notas.check = false;
         notas.email = ClsGlobales.getEmail();
         
         ClsBD.jsonNotas.add(notas);
         notas.GuardarNotas();
         this.dispose();
+        //Limpio las variables
+        this.txtTitulo.setText("");
+        this.txtDescripcion.setText("");
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     /**
@@ -171,7 +174,7 @@ public class FrmCrearNota extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea txtNota;
+    private javax.swing.JTextArea txtDescripcion;
     private javax.swing.JTextField txtTitulo;
     // End of variables declaration//GEN-END:variables
 }

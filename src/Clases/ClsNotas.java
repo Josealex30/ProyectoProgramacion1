@@ -43,7 +43,8 @@ public boolean GuardarNotas() {
     return Guardado;
 }
 
-public void ObtenerDatosMemoria() {
+public ClsNotas ObtenerDatosNotas() {
+    ClsNotas datosCargados = null;
     try {
         FileReader reader = new FileReader("Notas.txt");
         BufferedReader bufferedReader = new BufferedReader(reader);
@@ -56,12 +57,18 @@ public void ObtenerDatosMemoria() {
 
         reader.close();
         Gson gson = new Gson();
-        Type listType = new TypeToken<ArrayList<ClsAcceso>>(){}.getType();
+        Type listType = new TypeToken<ArrayList<ClsNotas>>(){}.getType();
         ArrayList<ClsNotas> ListaGuardada = gson.fromJson(Result, listType);
-        ClsBD.jsonNotas = ListaGuardada;
+
+        if (!ListaGuardada.isEmpty()) {
+            datosCargados = ListaGuardada.get(0); // Supongo que solo quieres el primer elemento
+            ClsBD.jsonNotas = ListaGuardada;
+        }
     } catch (Exception e) {
         System.out.println("Problemas al leer la data.");
     }
+
+    return datosCargados;
 }
 }
 

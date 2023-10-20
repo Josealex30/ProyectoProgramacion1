@@ -22,6 +22,7 @@ public class FrmLogin extends javax.swing.JFrame {
      FrmRegistro frmRegistro = new FrmRegistro();
      ClsAcceso acceso = new ClsAcceso();
      int posicionRecordar = -1;
+     boolean isValid = false;
     
     public FrmLogin() {
         initComponents();
@@ -49,25 +50,25 @@ public class FrmLogin extends javax.swing.JFrame {
         if(correo.isEmpty() && password.isEmpty()) {
             mensaje = "Debes de completar los campos.";
             JOptionPane.showMessageDialog(rootPane, mensaje, title, JOptionPane.ERROR_MESSAGE);
-            return false;
+            return isValid;
         }
         if (correo.isEmpty()) {
             mensaje = "El campo de correo está vacío.";
             JOptionPane.showMessageDialog(rootPane, mensaje, title, JOptionPane.ERROR_MESSAGE);
-            return false;
+            return isValid;
         }
         if (password.isEmpty()) {
             mensaje = "El campo de contraseña está vacío.";
             JOptionPane.showMessageDialog(rootPane, mensaje, title, JOptionPane.ERROR_MESSAGE);
-            return false;
+            return isValid;
         }
         if (password.length() < 4) {
             mensaje = "La contraseña debe tener al menos 4 caracteres.";
             JOptionPane.showMessageDialog(rootPane, mensaje, title, JOptionPane.ERROR_MESSAGE);
-            return false;
+            return isValid;
         }
         
-        return true;
+        return isValid = true;
   }
 
     /**
@@ -86,11 +87,11 @@ public class FrmLogin extends javax.swing.JFrame {
         btnRegistrarse = new javax.swing.JButton();
         btnRestablecerPassword = new javax.swing.JButton();
         chkRecordar = new javax.swing.JCheckBox();
-        txtPassword = new javax.swing.JTextField();
         lblPassword = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         lblEmail = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        txtPassword = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
 
@@ -153,12 +154,6 @@ public class FrmLogin extends javax.swing.JFrame {
             }
         });
 
-        txtPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPasswordActionPerformed(evt);
-            }
-        });
-
         lblPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblPassword.setForeground(new java.awt.Color(0, 51, 102));
         lblPassword.setText("Contraseña");
@@ -208,15 +203,15 @@ public class FrmLogin extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblEmail)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblPassword)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(chkRecordar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRestablecerPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -266,10 +261,6 @@ public class FrmLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailActionPerformed
 
-    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPasswordActionPerformed
-
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
         dispose(); //cerrar form actual
         frmRegistro.setVisible(true); 
@@ -281,7 +272,7 @@ public class FrmLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRestablecerPasswordActionPerformed
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
-         Boolean isValid = ValidarCampos();
+         isValid = ValidarCampos();
          boolean accesoValido = false;
          
          if(isValid) {
@@ -353,6 +344,6 @@ public class FrmLogin extends javax.swing.JFrame {
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtPassword;
+    private javax.swing.JPasswordField txtPassword;
     // End of variables declaration//GEN-END:variables
 }

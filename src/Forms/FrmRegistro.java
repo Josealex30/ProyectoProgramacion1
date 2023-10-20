@@ -6,6 +6,8 @@ package Forms;
 
 import Clases.ClsAcceso;
 import BD.ClsBD;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,10 +21,26 @@ public class FrmRegistro extends javax.swing.JFrame {
      */
     
     ClsAcceso acceso = new ClsAcceso();
+    boolean isValid = false;
+
     
     public FrmRegistro() {
         initComponents();
         acceso.ObtenerDatosMemoria();
+    }
+    
+    public boolean isValidEmail(String email) {
+        // Patrón de expresión regular para validar una dirección de correo electrónico
+        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+
+        // Compila el patrón
+        Pattern pattern = Pattern.compile(emailRegex);
+
+        // Crea un objeto Matcher para el email proporcionado
+        Matcher matcher = pattern.matcher(email);
+
+        // Verifica si el email coincide con el patrón
+        return matcher.matches();
     }
 
     public boolean ValidarCampos() {
@@ -35,31 +53,37 @@ public class FrmRegistro extends javax.swing.JFrame {
             if(this.txtEmail.getText().toLowerCase().equals(usuarios.Correo)) {
             mensaje = "Este correo ya esta en uso.";
             JOptionPane.showMessageDialog(rootPane, mensaje, title, JOptionPane.ERROR_MESSAGE);
+             return isValid;
             }
         }
              
         if(correo.isEmpty() && password.isEmpty()) {
             mensaje = "Debes de completar los campos.";
             JOptionPane.showMessageDialog(rootPane, mensaje, title, JOptionPane.ERROR_MESSAGE);
-            return false;
+            return isValid;
         }
         if (correo.isEmpty()) {
             mensaje = "El campo de correo está vacío.";
             JOptionPane.showMessageDialog(rootPane, mensaje, title, JOptionPane.ERROR_MESSAGE);
-            return false;
+            return isValid;
         }
         if (password.isEmpty()) {
             mensaje = "El campo de contraseña está vacío.";
             JOptionPane.showMessageDialog(rootPane, mensaje,title, JOptionPane.ERROR_MESSAGE);
-            return false;
+            return isValid;
         }
         if (password.length() < 4) {
             mensaje = "La contraseña debe tener al menos 4 caracteres.";
             JOptionPane.showMessageDialog(rootPane, mensaje, title, JOptionPane.ERROR_MESSAGE);
-            return false;
+            return isValid;
         }
         
-        return true;
+        if (!isValidEmail(this.txtEmail.getText())) {
+            JOptionPane.showMessageDialog(rootPane, "Dirección de correo electrónico no válida.", "Error", JOptionPane.ERROR_MESSAGE);
+            return isValid;
+        }
+        
+        return isValid = true;
   }
     
     /**
@@ -75,11 +99,11 @@ public class FrmRegistro extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         lblEmail = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
-        txtPassword = new javax.swing.JTextField();
         lblPassword = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        btnIniciarSesion = new javax.swing.JButton();
+        btnRegistrar = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
+        txtPassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -101,13 +125,6 @@ public class FrmRegistro extends javax.swing.JFrame {
         });
         jPanel2.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 312, 30));
 
-        txtPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPasswordActionPerformed(evt);
-            }
-        });
-        jPanel2.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 312, 31));
-
         lblPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblPassword.setForeground(new java.awt.Color(0, 51, 102));
         lblPassword.setText("Contraseña");
@@ -119,18 +136,18 @@ public class FrmRegistro extends javax.swing.JFrame {
         jLabel1.setText("Registro");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 190, 50));
 
-        btnIniciarSesion.setBackground(new java.awt.Color(0, 51, 102));
-        btnIniciarSesion.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnIniciarSesion.setForeground(new java.awt.Color(255, 255, 255));
-        btnIniciarSesion.setText("Registrar");
-        btnIniciarSesion.setActionCommand("");
-        btnIniciarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
+        btnRegistrar.setBackground(new java.awt.Color(0, 51, 102));
+        btnRegistrar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnRegistrar.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegistrar.setText("Registrar");
+        btnRegistrar.setActionCommand("");
+        btnRegistrar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnIniciarSesionActionPerformed(evt);
+                btnRegistrarActionPerformed(evt);
             }
         });
-        jPanel2.add(btnIniciarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, 220, 60));
+        jPanel2.add(btnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, 220, 60));
 
         btnBack.setBackground(new java.awt.Color(0, 51, 102));
         btnBack.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -145,6 +162,7 @@ public class FrmRegistro extends javax.swing.JFrame {
             }
         });
         jPanel2.add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 320, 90, 40));
+        jPanel2.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 310, 30));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 370, 370));
 
@@ -167,12 +185,8 @@ public class FrmRegistro extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEmailActionPerformed
 
-    private void txtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPasswordActionPerformed
-
-    private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
-        Boolean isValid = ValidarCampos();
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        isValid = ValidarCampos();
          if(isValid) {
                 ClsAcceso acceso = new ClsAcceso();
                 acceso.Correo = this.txtEmail.getText();
@@ -184,13 +198,15 @@ public class FrmRegistro extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Usuario creado con exito.", 
                                                                         "Nuevo usuario", 
                                                                          JOptionPane.INFORMATION_MESSAGE);
+                    this.dispose();
+                    new FrmLogin().setVisible(true);
                 } else {
                     JOptionPane.showMessageDialog(null, "Algo ha salido mal.", 
                                                                         "Error al crear.", 
                                                                          JOptionPane.ERROR_MESSAGE);
                 }
          }
-    }//GEN-LAST:event_btnIniciarSesionActionPerformed
+    }//GEN-LAST:event_btnRegistrarActionPerformed
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         dispose();
@@ -241,13 +257,13 @@ public class FrmRegistro extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
-    private javax.swing.JButton btnIniciarSesion;
+    private javax.swing.JButton btnRegistrar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblPassword;
     private javax.swing.JTextField txtEmail;
-    private javax.swing.JTextField txtPassword;
+    private javax.swing.JPasswordField txtPassword;
     // End of variables declaration//GEN-END:variables
 }

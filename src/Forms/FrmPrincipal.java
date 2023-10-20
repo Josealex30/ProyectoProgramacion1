@@ -4,6 +4,10 @@
  */
 package Forms;
 
+import BD.ClsBD;
+import Clases.ClsNotas;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author vinva
@@ -14,9 +18,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
      * Creates new form FrmPrincipal
      */
      FrmCrearNota frmCrearNota= new FrmCrearNota();
+     ClsNotas notas = new ClsNotas();
 
     public FrmPrincipal() {
         initComponents();
+        ObtenerListaNotas();
     }
 
     /**
@@ -31,7 +37,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         desktopPane = new javax.swing.JDesktopPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        list1 = new java.awt.List();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableNotas = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
@@ -67,21 +74,48 @@ public class FrmPrincipal extends javax.swing.JFrame {
         desktopPane.add(jPanel1);
         jPanel1.setBounds(10, 420, 590, 50);
 
+        tableNotas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Completado", "Título", "Descripción"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Boolean.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tableNotas);
+        if (tableNotas.getColumnModel().getColumnCount() > 0) {
+            tableNotas.getColumnModel().getColumn(0).setMinWidth(100);
+            tableNotas.getColumnModel().getColumn(0).setPreferredWidth(100);
+            tableNotas.getColumnModel().getColumn(0).setMaxWidth(100);
+            tableNotas.getColumnModel().getColumn(2).setResizable(false);
+        }
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(list1, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(list1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 4, Short.MAX_VALUE))
         );
 
         desktopPane.add(jPanel2);
@@ -198,6 +232,21 @@ public class FrmPrincipal extends javax.swing.JFrame {
         frmCrearNota.show();
     }//GEN-LAST:event_btnCrearNotaActionPerformed
 
+    public void ObtenerListaNotas() {
+        DefaultTableModel notas = (DefaultTableModel) tableNotas.getModel();
+
+        if (ClsBD.jsonNotas != null) {
+            for (ClsNotas nota : ClsBD.jsonNotas) {
+                Object[] columnasPosicion = new Object[3]; // 3 es el número de columnas en la fila
+                columnasPosicion[0] = nota.check;
+                columnasPosicion[1] = nota.titulo;
+                columnasPosicion[2] = nota.descripcion;
+
+                notas.addRow(columnasPosicion);
+            }
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -249,12 +298,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private java.awt.List list1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
+    private javax.swing.JTable tableNotas;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 
