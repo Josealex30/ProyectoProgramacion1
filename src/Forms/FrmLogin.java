@@ -290,6 +290,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 
                 accesoValido = acceso.ValidarAcceso(acceso.Correo, acceso.Password);
                 if(accesoValido) {
+                    ClsGlobales.setEmail(acceso.Correo);
                     ClsGlobales.fPrincipal.show();
                     this.dispose();
                 }

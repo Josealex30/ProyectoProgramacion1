@@ -5,6 +5,7 @@
 package BD;
 
 import Clases.ClsAcceso;
+import Clases.ClsNotas;
 import java.util.ArrayList;
 
 /**
@@ -13,5 +14,6 @@ import java.util.ArrayList;
  */
 public class ClsBD {
     public static ArrayList<ClsAcceso> jsonAccess = new ArrayList<>(); 
+    public static ArrayList<ClsNotas> jsonNotas = new ArrayList<>(); 
  
 }
